@@ -1,8 +1,13 @@
 import os
+import http.server
+import socketserver
 import shutil
 import sys
 import subprocess
 from telebot import TeleBot, types
+from http import HTTPStatus
+
+
 
 API_TOKEN = "7373226769:AAEdKTBuRsBVNWcLEM_oi2JmyRbzk1hkFco"
 bot = TeleBot(API_TOKEN)
@@ -269,3 +274,16 @@ def fallback(message):
 
 if __name__ == "__main__":
     bot.polling(none_stop=True)
+
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(HTTPStatus.OK)
+        self.end_headers()
+        msg = 'Hello! you requested %s' % (self.path)
+        self.wfile.write(msg.encode())
+
+
+port = int(os.getenv('PORT', 80))
+print('Listening on port %s' % (port))
+httpd = socketserver.TCPServer(('', port), Handler)
+httpd.serve_forever()
