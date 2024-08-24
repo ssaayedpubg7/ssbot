@@ -1,0 +1,12 @@
+bs4
+certifi
+charset-normalizer
+idna
+six
+urllib3
+python-dateutil
+requests
+soupsieve
+faker
+pytelegrambotapi
+user-agent
